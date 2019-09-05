@@ -1,0 +1,25 @@
+logging:
+  level: INFO
+  loggers:
+    com.dz.student-dropwizard-demo: DEBUG
+
+template: Hello, %s!
+defaultName: ${DW_DEFAULT_NAME:-Stranger}
+
+
+
+#mongoserver:
+#uri: mongodb://localhost:27017/student-data
+
+server:
+  maxThreads: 512
+  applicationContextPath: /
+  applicationConnectors:
+  - type: http
+    port: 8090
+  adminConnectors:
+  - type: http
+    port: 8091
+
+mongoserver:
+ uri: mongodb://localhost:27017/student-data
