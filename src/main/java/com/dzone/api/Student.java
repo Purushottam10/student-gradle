@@ -1,9 +1,10 @@
-package api;
+package com.dzone.api;
+import com.dzone.api.BaseModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Email;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Student extends BaseModel{
+public class Student extends BaseModel {
 
     private String firstName;
     private String lastName;

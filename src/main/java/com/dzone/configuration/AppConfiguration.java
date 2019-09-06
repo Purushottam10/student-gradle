@@ -1,15 +1,15 @@
-package configuration;
+package com.dzone.configuration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
-import service.StudentService;
 
 import javax.validation.Valid;
 
 public class AppConfiguration extends Configuration {
 
+
     private String template;
-   // private StudentService studentService;
+    // private StudentService studentService;
 
     private String defaultName = "Stranger";
 

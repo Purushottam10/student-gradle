@@ -1,43 +1,39 @@
-package resource;
-import api.Student;
+package com.dzone.resource;
+import com.dzone.api.Student;
 import com.codahale.metrics.annotation.Timed;
-import service.StudentService;
-
+import com.dzone.service.StudentService;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Path("/student")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Timed
 public class StudentResource {
+
+
+    @Inject
+    public StudentResource() {
+    }
+
     @Inject
     StudentService studentService;
 
-    private final String template;
-    private final String defaultName;
-    private final AtomicLong counter;
-    @Inject
-    public StudentResource(String template, String defaultName) {
-        this.template = template;
-        this.defaultName = defaultName;
+   /* @Inject
+    public StudentResource(StudentService studentService) {
         this.studentService = studentService;
-        this.counter = new AtomicLong();
-    }
+    }*/
+
     @Path("/getName")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getName(){
         return "Puru";
     }
-    @Path("/getAll")
+   /* @Path("/getAll")
     @GET
     public List<Student> getAllStudent(){
         Student student = new Student();
@@ -49,10 +45,18 @@ public class StudentResource {
         list.add(student);
         return list;
     }
-
+*/
     @Path("/save")
     @POST
     public Student save(Student student){
-       return studentService.save(student);
+
+        return studentService.save(student);
     }
+
+    @Path("/getAll")
+    @GET
+    public List<Student> getAll(){
+        return studentService.getAllStudent();
+    }
+
 }

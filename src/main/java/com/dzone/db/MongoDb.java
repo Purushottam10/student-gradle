@@ -1,4 +1,4 @@
-package db;
+package com.dzone.db;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;

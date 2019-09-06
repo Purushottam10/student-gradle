@@ -1,4 +1,4 @@
-package configuration;
+package com.dzone.configuration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;

@@ -1,6 +1,6 @@
-package repository;
+package com.dzone.repository;
 
-import api.Student;
+import com.dzone.api.Student;
 
 
 public interface StudentRepository extends BaseRepository<Student> {

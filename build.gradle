@@ -19,6 +19,12 @@ dependencies {
     compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.10.2'
     compile group: 'de.undercouch', name: 'bson4jackson', version: '2.9.2'
     compile group: 'com.google.inject', name: 'guice', version: '4.2.2'
-
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
+    compile group: 'ru.vyarus', name: 'dropwizard-guicey', version: '4.2.2'
+    compile group: 'org.glassfish.hk2', name: 'guice-bridge', version: '2.6.0'
+    compile group: 'joda-time', name: 'joda-time', version: '2.10.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.3'
+    compile group: 'com.github.roskart.dropwizard-jaxws', name: 'dropwizard-jaxws', version: '1.1.0'
 
 }
+ 

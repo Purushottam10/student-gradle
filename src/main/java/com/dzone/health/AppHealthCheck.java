@@ -1,4 +1,5 @@
-package health;
+package com.dzone.health;
+
 
 import com.codahale.metrics.health.HealthCheck;
 

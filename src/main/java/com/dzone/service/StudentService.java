@@ -1,6 +1,6 @@
-package service;
+package com.dzone.service;
 
-import api.Student;
+import com.dzone.api.Student;
 
 import java.util.List;
 

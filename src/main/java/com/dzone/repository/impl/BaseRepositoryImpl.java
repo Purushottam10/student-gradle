@@ -1,13 +1,13 @@
-package repository.impl;
+package com.dzone.repository.impl;
 
-import api.BaseModel;
+import com.dzone.api.BaseModel;
+import com.dzone.annotations.CollectionName;
 import com.google.common.collect.Lists;
-import db.MongoDb;
-import domain.annotations.CollectionName;
+import com.dzone.db.MongoDb;
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.jongo.MongoCollection;
-import repository.BaseRepository;
+import com.dzone.repository.BaseRepository;
 
 import java.util.List;
 

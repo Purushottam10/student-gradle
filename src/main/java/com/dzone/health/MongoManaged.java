@@ -1,6 +1,7 @@
-package health;
+package com.dzone.health;
 
 import io.dropwizard.lifecycle.Managed;
+
 
 public class MongoManaged implements Managed {
     @Override

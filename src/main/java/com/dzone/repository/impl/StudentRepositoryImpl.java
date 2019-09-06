@@ -1,8 +1,8 @@
-package repository.impl;
+package com.dzone.repository.impl;
 
-import api.Student;
-import db.MongoDb;
-import repository.StudentRepository;
+import com.dzone.api.Student;
+import com.dzone.db.MongoDb;
+import com.dzone.repository.StudentRepository;
 
 
 public class StudentRepositoryImpl extends BaseRepositoryImpl<Student> implements StudentRepository {

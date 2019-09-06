@@ -1,6 +1,6 @@
-package repository;
+package com.dzone.repository;
 
-import api.BaseModel;
+import com.dzone.api.BaseModel;
 
 import java.util.List;
 
