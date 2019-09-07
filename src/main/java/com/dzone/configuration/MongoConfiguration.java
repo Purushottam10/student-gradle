@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class MongoConfiguration {
-    @NotEmpty
-    @JsonProperty
+   @NotEmpty
+  @JsonProperty
     private String uri;
     /**
      *

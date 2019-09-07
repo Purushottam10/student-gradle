@@ -1,4 +1,4 @@
-package api;
+package com.dzone.api;
 
 import java.io.Serializable;
 

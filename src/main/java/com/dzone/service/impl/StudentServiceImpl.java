@@ -1,16 +1,14 @@
 package com.dzone.service.impl;
 
 import com.dzone.api.Student;
-import com.dzone.db.MongoDb;
 import com.dzone.repository.StudentRepository;
-import com.dzone.repository.impl.StudentRepositoryImpl;
 import com.dzone.service.StudentService;
 
 import javax.inject.Inject;
 import java.util.List;
 
 public class StudentServiceImpl implements StudentService {
-
+@Inject
     StudentRepository studentRepository;
     @Inject
     public StudentServiceImpl(StudentRepository studentRepository) {

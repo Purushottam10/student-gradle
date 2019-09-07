@@ -2,22 +2,23 @@ package com.dzone.resource;
 import com.dzone.api.Student;
 import com.codahale.metrics.annotation.Timed;
 import com.dzone.service.StudentService;
+import ru.vyarus.dropwizard.guice.module.installer.feature.jersey.HK2Managed;
 
 import javax.inject.Inject;
+
+import javax.jws.WebService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+@WebService
 @Path("/student")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@HK2Managed
 @Timed
 public class StudentResource {
 
-
-    @Inject
-    public StudentResource() {
-    }
 
     @Inject
     StudentService studentService;
