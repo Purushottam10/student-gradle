@@ -13,6 +13,10 @@ public class AppConfiguration extends Configuration {
 
     private String defaultName = "Stranger";
 
+    @Valid
+    @JsonProperty("cors.urls")
+    private String coreUrls = "http://localhost:8099,http://localhost:8091";
+
     public MongoConfiguration getMongoConfiguration() {
         return mongoConfiguration;
     }
@@ -21,6 +25,13 @@ public class AppConfiguration extends Configuration {
         this.mongoConfiguration = mongoConfiguration;
     }
 
+    public String getCoreUrls() {
+        return coreUrls;
+    }
+
+    public void setCoreUrls(String coreUrls) {
+        this.coreUrls = coreUrls;
+    }
 
     @Valid
     @JsonProperty("mongoserver")

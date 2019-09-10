@@ -9,17 +9,17 @@ import org.joda.time.DateTime;
 import org.jongo.MongoCollection;
 import com.dzone.repository.BaseRepository;
 
+import javax.inject.Singleton;
 import java.util.List;
 
+@Singleton
 public class BaseRepositoryImpl<T extends BaseModel> implements BaseRepository<T> {
    final MongoDb mongoManager;
    protected final MongoCollection collection;
    protected final Class<T> entityClass;
    protected CollectionName collectionName;
 
-
-
-    public BaseRepositoryImpl(MongoDb mongoManager, Class<T> clazz) throws Exception{
+       public BaseRepositoryImpl(MongoDb mongoManager, Class<T> clazz) throws Exception{
         this.mongoManager = mongoManager;
         collectionName = clazz.getAnnotation(CollectionName.class);
         collection = mongoManager.getMongoCollection(collectionName.name());

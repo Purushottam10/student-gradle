@@ -9,11 +9,9 @@ public class ResourceInstaller extends ru.vyarus.dropwizard.guice.module.install
 
     @Override
     public <T> void install(final Binder binder, final Class<? extends T> type, final boolean lazy) {
-//        if (!isHK2Managed(type) && !lazy) {
+        if (!isHK2Managed(type, !lazy)) {
             // force singleton
             binder.bind(type).in(RequestScoped.class);
-//       }
+        }
     }
-
-
 }

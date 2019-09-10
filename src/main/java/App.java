@@ -1,6 +1,8 @@
 import com.dzone.Installer.ResourceInstaller;
 import com.dzone.configuration.AppConfiguration;
 import com.dzone.configuration.ApplicationConnector;
+import com.dzone.configuration.ResourceConfigration;
+import com.dzone.mapper.ConnectionMapper;
 import com.dzone.resource.StudentResource;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.google.inject.AbstractModule;
@@ -10,7 +12,6 @@ import io.dropwizard.Application;
 import io.dropwizard.server.DefaultServerFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
@@ -24,14 +25,12 @@ import ru.vyarus.dropwizard.guice.module.installer.feature.jersey.JerseyFeatureI
 import ru.vyarus.dropwizard.guice.module.installer.feature.jersey.provider.JerseyProviderInstaller;
 import ru.vyarus.dropwizard.guice.module.installer.feature.plugin.PluginInstaller;
 
-import javax.inject.Singleton;
-import javax.servlet.FilterRegistration;
 import javax.ws.rs.ext.ExceptionMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Singleton
+
 public class App extends Application<AppConfiguration> {
 
     GuiceBundle<AppConfiguration> guiceBundle = null;
@@ -60,7 +59,7 @@ public class App extends Application<AppConfiguration> {
 //        bootstrap.addBundle(GuiceBundle.builder().enableAutoConfig("com.dzone")
 //                .build());
 
-      //  Module[] modules = autoDiscoverModules();
+        Module[] modules = autoDiscoverModules();
 
 
         bootstrap.getObjectMapper().registerSubtypes(DefaultServerFactory.class);
@@ -68,7 +67,7 @@ public class App extends Application<AppConfiguration> {
         bootstrap.getObjectMapper().enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
         bootstrap.addBundle(jaxwsBundle);
         GuiceBundle.Builder builder = GuiceBundle.builder()
-//                .modules(modules)
+                .modules(modules)
                 .noDefaultInstallers()
                 .installers(new Class[]{LifeCycleInstaller.class,
                         ManagedInstaller.class,
@@ -77,7 +76,8 @@ public class App extends Application<AppConfiguration> {
                         EagerSingletonInstaller.class,
                         HealthCheckInstaller.class,
                         TaskInstaller.class,
-                        PluginInstaller.class
+                        PluginInstaller.class,
+                        ApplicationConnector.class
                 })
                 .enableAutoConfig(ApplicationConnector.class.getPackage().getName());
         postInitialize(bootstrap, builder);
@@ -92,17 +92,23 @@ public class App extends Application<AppConfiguration> {
       //  FilterRegistration.Dynamic dFilter = environment.servlets().addFilter("student", CrossOriginFilter.class);
 //   AbstractServerFactory sf = (AbstractServerFactory) configuration.getServerFactory();
 
-//        Endpoint e =  jaxWsBundle.publishEndpoint(
-//                new EndpointBuilder("student", new StudentResource()));
+//     Endpoint e =  jaxWsBundle.publishEndpoint(
+//               new EndpointBuilder("student", new StudentResource()));
        // environment.jersey().register(new StudentResource());
         //environment.jersey().register(new StudentServiceImpl());
         //environment.jersey().packages("service");
       //  environment.jersey().disable();
        // environment.servlets().addServlet(StudentResource.class).addMapping("/student");
-        environment.getJerseyServletContainer().getServletInfo();
+       // environment.getJerseyServletContainer().getServletInfo();
         //environment.servlets().setBaseResource("");
         ///environment.servlets().addServlet("StudentResource",StudentResource.class);
-       //environment.jersey().register(new ResourceInstaller());
+        environment.jersey().register(new ResourceInstaller());
+        environment.jersey().register(new ApplicationConnector());
+       // environment.jersey().register(ResourceConfigration.class);
+      //  environment.jersey().register(guiceBundle.getInjector().getInstance(StudentResource.class));
+        environment.jersey().register(StudentResource.class);
+        environment.jersey().register(new ConnectionMapper());
+        environment.jersey().register(new ApplicationConnector());
 
         postRun(configuration,environment);
     }
@@ -114,7 +120,7 @@ public class App extends Application<AppConfiguration> {
     protected void postInitialize(Bootstrap<AppConfiguration> bootstrapm, GuiceBundle.Builder guiceBuilder) {
         // Sub-classes should
     }
- /*public Module[] autoDiscoverModules() {
+ public Module[] autoDiscoverModules() {
         Reflections reflections =
                 new Reflections(
                         new ConfigurationBuilder()
@@ -134,7 +140,7 @@ public class App extends Application<AppConfiguration> {
         }
         return discoveredModules.toArray(new Module[]{});
     }
-*/
+
     private void removeDefaultExceptionMappers(boolean deleteDefault, Environment environment) {
         if (deleteDefault) {
             ResourceConfig jrConfig = environment.jersey().getResourceConfig();
