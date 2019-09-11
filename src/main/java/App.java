@@ -4,14 +4,19 @@ import com.dzone.configuration.ApplicationConnector;
 import com.dzone.configuration.ResourceConfigration;
 import com.dzone.mapper.ConnectionMapper;
 import com.dzone.resource.StudentResource;
+import com.dzone.service.StudentService;
+import com.dzone.service.impl.StudentServiceImpl;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.google.inject.AbstractModule;
+import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.roskart.dropwizard.jaxws.JAXWSBundle;
 import io.dropwizard.Application;
+import io.dropwizard.server.AbstractServerFactory;
 import io.dropwizard.server.DefaultServerFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+//import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
@@ -33,10 +38,15 @@ import java.util.Set;
 
 public class App extends Application<AppConfiguration> {
 
-    GuiceBundle<AppConfiguration> guiceBundle = null;
+    GuiceBundle<AppConfiguration> guiceBundle ;
+    private Injector injector;
     private JAXWSBundle jaxwsBundle = new JAXWSBundle();
     public static void main(final String[] args) throws Exception {
-        new App().run(args);
+        try{
+            new App().run(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private JAXWSBundle<Object> jaxWsBundle = new JAXWSBundle<>("/api");
     @Override
@@ -69,9 +79,11 @@ public class App extends Application<AppConfiguration> {
         GuiceBundle.Builder builder = GuiceBundle.builder()
                 .modules(modules)
                 .noDefaultInstallers()
-                .installers(new Class[]{LifeCycleInstaller.class,
+                .installers(new Class[]{
+                        LifeCycleInstaller.class,
                         ManagedInstaller.class,
-                        JerseyFeatureInstaller.class, ResourceInstaller.class,
+                        JerseyFeatureInstaller.class,
+                        ResourceInstaller.class,
                         JerseyProviderInstaller.class,
                         EagerSingletonInstaller.class,
                         HealthCheckInstaller.class,
@@ -80,18 +92,29 @@ public class App extends Application<AppConfiguration> {
                         ApplicationConnector.class
                 })
                 .enableAutoConfig(ApplicationConnector.class.getPackage().getName());
+
+//            GuiceBundle<AppConfiguration> guiceBundlem = GuiceBundle.<AppConfiguration>newBuilder()
+//                    .addModule(new AppModule())
+//                    .setConfigClass(AppConfiguration.class)
+//                    .enableAutoConfig(getClass().getPackage().getName())
+//                    .build();
+//            bootstrap.addBundle(guiceBundle);
         postInitialize(bootstrap, builder);
         guiceBundle = builder.build();
+//        bootstrap.addBundle(guiceBundlem);
         bootstrap.addBundle(guiceBundle);
     }
 
     @Override
     public void run(final AppConfiguration configuration,
                     final Environment environment) throws Exception {
+
         // TODO: implement application
       //  FilterRegistration.Dynamic dFilter = environment.servlets().addFilter("student", CrossOriginFilter.class);
-//   AbstractServerFactory sf = (AbstractServerFactory) configuration.getServerFactory();
-
+        AbstractServerFactory sf = (AbstractServerFactory) configuration.getServerFactory();
+        sf.setRegisterDefaultExceptionMappers(false);
+      //environment.jersey().register(MultiPartFeature.class);
+       // environment.jersey().register(guiceBundle.getInjector().getInstance(ApplicationConnector.class));
 //     Endpoint e =  jaxWsBundle.publishEndpoint(
 //               new EndpointBuilder("student", new StudentResource()));
        // environment.jersey().register(new StudentResource());
@@ -103,13 +126,15 @@ public class App extends Application<AppConfiguration> {
         //environment.servlets().setBaseResource("");
         ///environment.servlets().addServlet("StudentResource",StudentResource.class);
         environment.jersey().register(new ResourceInstaller());
-        environment.jersey().register(new ApplicationConnector());
-       // environment.jersey().register(ResourceConfigration.class);
-      //  environment.jersey().register(guiceBundle.getInjector().getInstance(StudentResource.class));
+       // environment.jersey().register(new ApplicationConnector());
+       environment.jersey().getResourceConfig().register(ResourceConfigration.class);
+      //environment.jersey().register(guiceBundle.getInjector().getInstance(StudentResource.class));
         environment.jersey().register(StudentResource.class);
         environment.jersey().register(new ConnectionMapper());
+        environment.jersey().register(StudentServiceImpl.class);
         environment.jersey().register(new ApplicationConnector());
-
+       // injector = guiceBundle.getInjector();
+       // environment.jersey().getResourceConfig().registerResources(resourceBuilder.build());
         postRun(configuration,environment);
     }
 

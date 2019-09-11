@@ -1,7 +1,6 @@
 package com.dzone.mapper;
 
 import com.dzone.configuration.AppConfiguration;
-
 import com.dzone.db.MongoDb;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;

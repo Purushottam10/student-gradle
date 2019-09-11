@@ -5,6 +5,7 @@ import com.dzone.api.Student;
 import com.dzone.service.StudentService;
 import com.google.inject.Inject;
 
+import javax.jws.WebService;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -21,14 +22,13 @@ public class StudentResource {
     }*/
    //Student student;
 
-   @Inject
+//   @Inject
     StudentService studentService;
 
-  /*  @Inject
+    @Inject
     public StudentResource(StudentService studentService) {
         this.studentService = studentService;
     }
-*/
   /*  @Path("/getName")
     @GET
     @Produces(MediaType.APPLICATION_JSON)

@@ -9,19 +9,19 @@ import com.google.inject.Singleton;
 
 
 import java.util.List;
-
+//@Singleton
 public class StudentServiceImpl implements StudentService {
 
-    @Inject
+//    @Inject
     StudentRepository studentRepository;
-/*    @Inject
+    @Inject
     public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
-    }*/
-
-@Inject
-    public StudentServiceImpl(Provider<Student> student) {
     }
+
+//@Inject
+//    public StudentServiceImpl(Provider<Student> student) {
+//    }
 
     @Override
     public Student save(Student student){
